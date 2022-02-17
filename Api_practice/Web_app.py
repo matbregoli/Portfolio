@@ -1,4 +1,4 @@
-from flask	import Flask, render_template, url_for
+from flask import Flask, render_template, url_for
 from Weather import weatherAPI, weather_type_img
 from Forms import addressForm
 
