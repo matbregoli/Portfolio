@@ -16,6 +16,7 @@ input = InputManager(map)
 while True:
 
     map.build()
+
     input.check_events()
     
     input.write_rects()

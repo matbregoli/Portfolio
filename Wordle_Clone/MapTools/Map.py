@@ -10,7 +10,7 @@ class Map:
         self.screen.fill(self.background_color)
 
         y = 40
-        x= 40
+        x = 40
         while y < 560:
             while x < 560:
                 new_rect = Rectangle((x, y), 100, (208, 208, 208))
@@ -21,5 +21,9 @@ class Map:
             x = 40
             y += 105
 
+
     def getRects(self):
         return self.rects
+
+    def getRect(self, i):
+        return self.rects[i]
