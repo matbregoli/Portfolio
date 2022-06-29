@@ -9,17 +9,21 @@ class Map:
     def build(self):
         self.screen.fill(self.background_color)
 
-        y = 40
-        x = 40
-        while y < 560:
-            while x < 560:
-                new_rect = Rectangle((x, y), 100, (208, 208, 208))
-                new_rect.draw_rect(self.screen)
-                self.rects.append(new_rect)
-                x += 105
-            
+        if len(self.rects) == 0:
+            y = 40
             x = 40
-            y += 105
+            while y < 560:
+                while x < 560:
+                    new_rect = Rectangle((x, y), 100, (208, 208, 208))
+                    new_rect.draw_rect(self.screen)
+                    self.rects.append(new_rect)
+                    x += 105
+                
+                x = 40
+                y += 105
+        else:
+            for rect in self.rects:
+                rect.draw_rect(self.screen)
 
 
     def getRects(self):

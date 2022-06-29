@@ -1,4 +1,3 @@
-from operator import le
 import pygame
 
 class Rectangle:
@@ -6,13 +5,14 @@ class Rectangle:
     def __init__(self, coords, width, rect_color):
         self.outline_rect = pygame.Rect(coords[0], coords[1], width, width)
         self.rect_color = rect_color
+        self.border = 2
         self.input_rect = pygame.Rect(coords[0]+25, coords[1]+20, width, width)
         self.input_color = (0,0,0)
         self.base_font = pygame.font.SysFont(None, 80)
         self.letter = ''
 
     def draw_rect(self, screen):
-        pygame.draw.rect(screen, self.rect_color, self.outline_rect, 2, 3)
+        pygame.draw.rect(screen, self.rect_color, self.outline_rect, self.border , 3)
 
     def get_rect_font(self):
         return self.base_font
@@ -42,3 +42,7 @@ class Rectangle:
 
     def isEmpty(self):
         return self.letter == ''
+
+    def setColor(self, color):
+        self.rect_color = color
+        self.border = 0

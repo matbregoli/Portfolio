@@ -6,6 +6,7 @@ class InputManager:
         self.map = new_map
         self.current_rect = 0
         self.current_line = 40
+        self.word = 'HOLAS'
 
     def check_events(self):
         for event in pygame.event.get():
@@ -23,28 +24,23 @@ class InputManager:
                         self.map.getRect(self.current_rect).set_letter(event.unicode.upper()) 
                         self.current_rect += 1
 
-
                 else: # Cases in which the user wants to check the word
                     if(self.current_rect % 5 == 0):
-                        self.current_line += 105
-                    
-
-
-                # if((self.current_rect == 1 or (self.current_rect > 0 and (self.current_rect - 1) % 4 != 0)) and event.key == pygame.K_BACKSPACE):
-                #     self.current_rect -= 1
-                #     self.map.getRect(self.current_rect).empty_letter()
-
-                # elif((self.current_rect == 0 or self.current_rect % 5 != 0) and event.key != pygame.K_BACKSPACE):
-                #     self.map.getRect(self.current_rect).set_letter(event.unicode.upper()) 
-                #     self.current_rect += 1
-
-                # elif(self.current_rect % 5 == 0):
-                #     if(event.key == pygame.K_BACKSPACE):
+                        self.check_line()
                         
-
+                        self.current_line += 105
 
     def write_rects(self):
         for rect in self.map.getRects():
             text_surface = rect.get_rect_font().render(rect.get_letter(), True, rect.get_letter_color())
             self.map.screen.blit(text_surface, (rect.get_input_rect().x+5, rect.get_input_rect().y+5))
-            
+
+    def check_line(self):
+        aux = self.current_rect - 5
+        for i in range(0, 5):
+            rect = self.map.getRect(aux)
+            if rect.get_letter() == self.word[i]:
+                rect.setColor((154,205,50))
+            else:
+                rect.setColor((250,128,114))
+            aux += 1
