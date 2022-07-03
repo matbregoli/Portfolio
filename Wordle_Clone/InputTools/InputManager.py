@@ -6,7 +6,7 @@ class InputManager:
         self.map = new_map
         self.current_rect = 0
         self.current_line = 40
-        self.word = 'AUDIO'
+        self.word = 'PULPO'
         self.go = True
 
     def check_events(self):
@@ -53,6 +53,8 @@ class InputManager:
             rect = self.map.getRect(aux)
             if rect.get_letter() == self.word[i]:
                 rect.setColor((154,205,50))
+            elif self.letter_is_in(rect.get_letter()):
+                rect.setColor((255,255,102))
             else:
                 rect.setColor((250,128,114))
             result = result + rect.get_letter()
@@ -60,5 +62,8 @@ class InputManager:
 
         return result == self.word
 
-    def stop(self):
-        self.go = False
+    def letter_is_in(self, letter):
+        for l in self.word:
+            if l == letter:
+                return True
+        return False
