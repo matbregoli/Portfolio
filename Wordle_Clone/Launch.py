@@ -1,4 +1,4 @@
-import sys
+import time
 import pygame
 from MapTools.Map import Map
 from InputTools.InputManager import InputManager
@@ -14,6 +14,18 @@ map.build()
 input = InputManager(map)
 
 while True:
+
+    if not(input.go):
+        map.build()
+
+        input.check_events()
+    
+        input.write_rects()
+
+        pygame.display.flip()
+
+        time.sleep(1)
+        break
 
     map.build()
 

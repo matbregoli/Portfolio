@@ -6,29 +6,40 @@ class InputManager:
         self.map = new_map
         self.current_rect = 0
         self.current_line = 40
-        self.word = 'HOLAS'
+        self.word = 'AUDIO'
+        self.go = True
 
     def check_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: sys.exit()
-            
-            if event.type == pygame.KEYDOWN:
-
-                if (event.key == pygame.K_BACKSPACE): # Cases in which the user wants to erase
-                    if(self.map.getRect(self.current_rect - 1).getY() == self.current_line):
-                        self.current_rect -= 1
-                        self.map.getRect(self.current_rect).empty_letter()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT: sys.exit()
                 
-                elif(event.key != pygame.K_RETURN): # Cases in which the user wants to write
-                    if(self.map.getRect(self.current_rect).getY() == self.current_line):
-                        self.map.getRect(self.current_rect).set_letter(event.unicode.upper()) 
-                        self.current_rect += 1
+                if event.type == pygame.KEYDOWN:
 
-                else: # Cases in which the user wants to check the word
-                    if(self.current_rect % 5 == 0):
-                        self.check_line()
-                        
-                        self.current_line += 105
+                    try:
+                        if (event.key == pygame.K_BACKSPACE): # Cases in which the user wants to erase
+                            if(self.map.getRect(self.current_rect - 1).getY() == self.current_line):
+                                self.current_rect -= 1
+                                self.map.getRect(self.current_rect).empty_letter()
+                    
+                        elif(event.key != pygame.K_RETURN): # Cases in which the user wants to write
+                            if(self.map.getRect(self.current_rect).getY() == self.current_line):
+                                self.map.getRect(self.current_rect).set_letter(event.unicode.upper()) 
+                                self.current_rect += 1
+
+                        else: # Cases in which the user wants to check the word
+                            if(self.current_rect % 5 == 0):
+                                result = self.check_line()
+                                
+                                self.current_line += 105
+
+                                if result or self.current_line > 460:
+                                    self.go = False
+                                
+
+                    except IndexError:
+                        pass
+
+            
 
     def write_rects(self):
         for rect in self.map.getRects():
@@ -37,10 +48,17 @@ class InputManager:
 
     def check_line(self):
         aux = self.current_rect - 5
+        result = ''
         for i in range(0, 5):
             rect = self.map.getRect(aux)
             if rect.get_letter() == self.word[i]:
                 rect.setColor((154,205,50))
             else:
                 rect.setColor((250,128,114))
+            result = result + rect.get_letter()
             aux += 1
+
+        return result == self.word
+
+    def stop(self):
+        self.go = False
